@@ -13,7 +13,7 @@ form.addEventListener("submit", async (e) => {
   status.textContent = "Sending...";
 
   try {
-    const res = await fetch("https://portfolio-backend.onrender.com/contact", {
+    const res = await fetch("https://portfolio-backend-y3um.onrender.com/contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
