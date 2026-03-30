@@ -1,37 +1,35 @@
+console.log("JS WORKING");
+
 const form = document.getElementById("contactForm");
 const status = document.getElementById("formStatus");
 
 if (form) {
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const data = {
-      name: form.name.value,
-      email: form.email.value,
-      message: form.message.value
-    };
+  form.addEventListener("submit", function(e) {
+    e.preventDefault(); // 🚨 THIS STOPS REFRESH
 
     status.textContent = "Sending...";
 
-    try {
-      const res = await fetch("https://portfolio-backend-y3um.onrender.com/contact", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(data)
-      });
-
+    fetch("https://portfolio-backend-y3um.onrender.com/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: form.name.value,
+        email: form.email.value,
+        message: form.message.value
+      })
+    })
+    .then(res => {
       if (res.ok) {
         status.textContent = "Message sent successfully ✅";
-        status.className = "form-status success";
         form.reset();
       } else {
-        throw new Error("Failed");
+        status.textContent = "Error sending ❌";
       }
-    } catch (err) {
-      status.textContent = "Error sending message ❌";
-      status.className = "form-status error";
-    }
+    })
+    .catch(() => {
+      status.textContent = "Server error ❌";
+    });
   });
 }
