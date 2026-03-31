@@ -56,3 +56,7 @@ createTable();
 app.listen(5000, () => {
   console.log("Server running 🚀");
 });
+app.get("/messages", async (req, res) => {
+  const result = await pool.query("SELECT * FROM messages");
+  res.json(result.rows);
+});
